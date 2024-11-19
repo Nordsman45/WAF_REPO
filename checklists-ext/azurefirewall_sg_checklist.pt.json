@@ -1,0 +1,314 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Azure/review-checklists/main/checklists/checklist.schema.json",
+    "categories": [],
+    "items": [
+        {
+            "description": "Implante o Firewall do Azure em várias zonas de disponibilidade para manter um nível específico de resiliência. Se uma zona sofrer uma interrupção, outra zona continuará a atender ao tráfego.",
+            "guid": "881f08f8-32f0-420d-b4f7-f0660a0402cb",
+            "service": "Azure Firewall",
+            "text": "Implante o Firewall do Azure em várias zonas de disponibilidade.",
+            "type": "recommendation",
+            "waf": "Fiabilidade"
+        },
+        {
+            "description": "Monitore as métricas de recursos e a integridade do serviço para que você possa detectar quando um estado de serviço é degradado e tomar medidas proativas para evitar falhas.",
+            "guid": "a61daca7-ba87-4a5f-8d72-6c4e61f1f8a1",
+            "service": "Azure Firewall",
+            "text": "Monitore as métricas do Firewall do Azure em um workspace do Log Analytics. Monitore de perto as métricas que indicam o estado de integridade do Firewall do Azure, como taxa de transferência, estado de integridade do firewall, utilização da porta SNAT e métricas de investigação de latência AZFW.  Use a Integridade do Serviço do Azure para monitorar a integridade do Firewall do Azure.",
+            "type": "recommendation",
+            "waf": "Fiabilidade"
+        },
+        {
+            "description": "Use o túnel forçado para não expor seus recursos do Azure diretamente à Internet. Essa abordagem reduz a superfície de ataque e minimiza o risco de ameaças externas. Para impor políticas corporativas e requisitos de conformidade com mais eficiência, roteie todo o tráfego vinculado à Internet por meio de um firewall local ou de uma NVA.",
+            "guid": "11c69324-ff8f-48aa-9e9e-9c954e29a121",
+            "service": "Azure Firewall",
+            "text": "Configure o Firewall do Azure no modo de túnel forçado se precisar rotear todo o tráfego vinculado à Internet para um próximo salto designado em vez de diretamente para a Internet. Essa recomendação não se aplica à WAN Virtual. <BR><BR> O Firewall do Azure deve ter conectividade direta com a Internet. Se o AzureFirewallSubnet aprender uma rota padrão para sua rede local por meio do Protocolo de Gateway de Borda, você deverá configurar o Firewall do Azure no modo de túnel forçado. Você pode usar o recurso de túnel forçado para adicionar outro espaço de endereço /26 para a sub-rede de Gerenciamento do Firewall do Azure. Nomeie a sub-rede AzureFirewallManagementSubnet. Se você tiver uma instância existente do Firewall do Azure que não pode ser reconfigurada no modo de túnel forçado, crie uma UDR com uma rota 0.0.0.0/0. Defina o valor NextHopType como Internet. Para manter a conectividade com a Internet, associe a UDR a AzureFirewallSubnet.  Defina o endereço IP público como Nenhum para implantar um plano de dados totalmente privado ao configurar o Firewall do Azure no modo de túnel forçado. Mas o plano de gerenciamento ainda requer um IP público apenas para fins de gerenciamento. O tráfego interno de redes virtuais e locais não usa esse IP público.",
+            "type": "recommendation",
+            "waf": "Segurança"
+        },
+        {
+            "description": "Organize as regras em uma estrutura hierárquica para que as políticas granulares possam atender aos requisitos de regiões específicas. Cada política pode conter diferentes conjuntos de regras de DNAT (Destination Network Address Translation), rede e aplicativo que têm prioridades, ações e ordens de processamento específicas.",
+            "guid": "29a3b176-03b3-4273-b9f8-cdddee154009",
+            "service": "Azure Firewall",
+            "text": "Crie regras para políticas de firewall em uma estrutura hierárquica para sobrepor uma política de base central. Para obter mais informações, consulte Usar políticas de Firewall do Azure para processar regras. <BR><BR> Crie suas regras com base no princípio Zero Trust de acesso com privilégios mínimos",
+            "type": "recommendation",
+            "waf": "Segurança"
+        },
+        {
+            "description": "Habilite os provedores de parceiros de segurança no Firewall do Azure para aproveitar as melhores ofertas de segurança na nuvem, que fornecem proteção avançada para o tráfego da Internet. Esses provedores oferecem filtragem especializada e com reconhecimento do usuário e recursos abrangentes de detecção de ameaças que aprimoram sua postura geral de segurança.",
+            "guid": "f03b413a-c06c-4f22-98ad-6798b74f825e",
+            "service": "Azure Firewall",
+            "text": "Configure provedores de parceiros de segurança compatíveis no Firewall Manager para proteger as conexões de saída. <BR><BR> Esse cenário requer a WAN Virtual com um gateway de VPN S2S no hub porque ele usa um túnel IPsec para se conectar à infraestrutura do provedor. Os provedores de serviços de segurança gerenciados podem cobrar taxas de licença extras e limitar a taxa de transferência em conexões IPsec. Você também pode usar soluções alternativas, como o Zscaler Cloud Connector.",
+            "type": "recommendation",
+            "waf": "Segurança"
+        },
+        {
+            "description": "Habilite esse recurso para apontar clientes nas redes virtuais para o Firewall do Azure como um servidor DNS. Esse recurso protege a infraestrutura DNS interna que não é acessada e exposta diretamente.",
+            "guid": "98a53328-cf36-4d0e-b7dc-a15a8957ab3b",
+            "service": "Azure Firewall",
+            "text": "Habilite a configuração de proxy DNS do Firewall do Azure. <BR><BR> Configure também o Firewall do Azure para usar o DNS personalizado para encaminhar consultas DNS.",
+            "type": "recommendation",
+            "waf": "Segurança"
+        },
+        {
+            "description": "Envie tráfego pelo firewall para inspecionar o tráfego e ajudar a identificar e bloquear o tráfego mal-intencionado. <BR><BR> Use o Firewall do Azure como um proxy explícito para o tráfego de saída para que o tráfego da Web atinja o endereço IP privado do firewall e, portanto, saia diretamente do firewall sem usar uma UDR. Esse recurso também facilita o uso de vários firewalls sem modificar as rotas de rede existentes.",
+            "guid": "5a33a8c3-32ad-4df5-b10e-ae88d9341652",
+            "service": "Azure Firewall",
+            "text": "Configure UDRs para forçar o tráfego por meio do Firewall do Azure em uma arquitetura hub-and-spoke tradicional para conectividade spoke-to-spoke, spoke-to-internet e spoke-to-hybrid. <BR><BR> Na WAN Virtual, configure a intenção e as políticas de roteamento para redirecionar o tráfego privado ou o tráfego da Internet por meio da instância do Firewall do Azure integrada ao hub. <BR><BR> Se você não puder aplicar uma UDR e precisar apenas de redirecionamento de tráfego da Web, use o Firewall do Azure como um proxy explícito no caminho de saída. Você pode definir uma configuração de proxy no aplicativo de envio, como um navegador da Web, ao configurar o Firewall do Azure como um proxy.",
+            "type": "recommendation",
+            "waf": "Segurança"
+        },
+        {
+            "description": "Use FQDNs nas regras de rede do Firewall do Azure para que os administradores possam gerenciar nomes de domínio em vez de vários endereços IP, o que simplifica o gerenciamento. Essa resolução dinâmica garante que as regras de firewall sejam atualizadas automaticamente quando os IPs de domínio forem alterados.",
+            "guid": "468a142a-2b62-4379-90d1-46a7d351716f",
+            "service": "Azure Firewall",
+            "text": "Use a filtragem FQDN em regras de rede. Você deve habilitar a configuração de proxy DNS do Firewall do Azure para usar FQDNs em suas regras de rede.",
+            "type": "recommendation",
+            "waf": "Segurança"
+        },
+        {
+            "description": "Use marcas de serviço em regras de rede para que você possa definir controles de acesso com base em nomes de serviço em vez de endereços IP específicos, o que simplifica o gerenciamento de segurança. A Microsoft gerencia e atualiza essas marcas automaticamente quando os endereços IP são alterados. Esse método garante que suas regras de firewall permaneçam precisas e eficazes sem intervenção manual.",
+            "guid": "d64d477e-8277-4f70-9727-8c1db0cd649c",
+            "service": "Azure Firewall",
+            "text": "Use marcas de serviço do Firewall do Azure no lugar de endereços IP específicos para fornecer acesso seletivo a serviços específicos no Azure, Microsoft Dynamics 365 e Microsoft 365.",
+            "type": "recommendation",
+            "waf": "Segurança"
+        },
+        {
+            "description": "Use marcas FQDN em regras de aplicativo do Firewall do Azure para representar um grupo de FQDNs associados a serviços conhecidos da Microsoft. Esse método simplifica o gerenciamento de regras de segurança de rede.",
+            "guid": "f8f92e49-b7ed-40cc-ad7b-3431067dd488",
+            "service": "Azure Firewall",
+            "text": "Use marcas FQDN em regras de aplicativo para fornecer acesso seletivo a serviços específicos da Microsoft. <BR><BR> Você pode usar uma marca FQDN em regras de aplicativo para permitir o tráfego de rede de saída necessário por meio do firewall para serviços específicos do Azure, como Microsoft 365, Windows 365 e Microsoft Intune.",
+            "type": "recommendation",
+            "waf": "Segurança"
+        },
+        {
+            "description": "Use inteligência de ameaças para fornecer proteção em tempo real contra ameaças emergentes, o que reduz o risco de ataques cibernéticos. Esse recurso usa o feed de inteligência contra ameaças da Microsoft para alertar e bloquear automaticamente o tráfego de endereços IP, domínios e URLs mal-intencionados conhecidos.",
+            "guid": "ecce93c9-ffc9-498f-abdf-d29a618b8d1c",
+            "service": "Azure Firewall",
+            "text": "Habilite a inteligência contra ameaças no Firewall do Azure no modo de alerta e negação.",
+            "type": "recommendation",
+            "waf": "Segurança"
+        },
+        {
+            "description": "Habilitar a filtragem IDPS no Firewall do Azure fornece monitoramento e análise em tempo real do tráfego de rede para detectar e impedir atividades mal-intencionadas. Esse recurso usa detecção baseada em assinatura para identificar rapidamente ameaças conhecidas e bloqueá-las antes que causem danos.  Para obter mais informações, consulte Detectar abuso.",
+            "guid": "754d917c-b22f-4fe7-92b1-d0d88b5b1873",
+            "service": "Azure Firewall",
+            "text": "Habilite o IDPS no modo Alerta ou Alerta e negação. Considere o impacto no desempenho desse recurso.",
+            "type": "recommendation",
+            "waf": "Segurança"
+        },
+        {
+            "description": "Habilite a inspeção TLS para que o Firewall do Azure Premium encerre e inspecione as conexões TLS para detectar, alertar e mitigar atividades mal-intencionadas em HTTPS.",
+            "guid": "9e220953-da77-44f0-9e85-ccc7743e2d2a",
+            "service": "Azure Firewall",
+            "text": "Use uma AC (autoridade de certificação) corporativa interna para gerar certificados ao usar a inspeção TLS com o Firewall do Azure Premium. Use certificados autoassinados apenas para fins de teste e PoC (prova de conceito).",
+            "type": "recommendation",
+            "waf": "Segurança"
+        },
+        {
+            "description": "Configure um plano de Proteção contra DDoS do Azure para que você possa gerenciar centralmente a proteção contra DDoS junto com suas políticas de firewall. Essa abordagem simplifica a forma como você gerencia a segurança da rede e simplifica a forma como você implanta e monitora os processos.",
+            "guid": "fe3488cd-72a6-4672-b26b-64b1a0e9f625",
+            "service": "Azure Firewall",
+            "text": "Use o Gerenciador de Firewall para criar e associar um plano de Proteção contra DDoS do Azure à rede virtual do hub. Essa abordagem não se aplica à WAN Virtual.",
+            "type": "recommendation",
+            "waf": "Segurança"
+        },
+        {
+            "description": "Desligue essas implantações fora do horário de pico ou quando ocioso para reduzir despesas desnecessárias, mas mantenha a segurança e o desempenho durante momentos críticos.",
+            "guid": "463b7549-f012-4554-a6df-4ea62350cc52",
+            "service": "Azure Firewall",
+            "text": "Pare as implantações do Firewall do Azure que não precisam ser executadas continuamente. Você pode ter ambientes de desenvolvimento ou teste que você usa apenas durante o horário comercial. Para obter mais informações, consulte Desalocar e alocar o Firewall do Azure.",
+            "type": "recommendation",
+            "waf": "Custar"
+        },
+        {
+            "description": "Otimize as cargas de trabalho que geram mais tráfego por meio do firewall para reduzir o volume de tráfego, o que diminui a carga no firewall e minimiza os custos de processamento de dados e largura de banda.",
+            "guid": "ccd04d1a-611b-4c77-aef7-96d1ac1470d1",
+            "service": "Azure Firewall",
+            "text": "Examine regularmente o tráfego que o Firewall do Azure processa e encontre otimizações de carga de trabalho de origem. O log de fluxos superiores, também conhecido como log de fluxos de gordura, mostra as principais conexões que contribuem para a maior taxa de transferência por meio do firewall.",
+            "type": "recommendation",
+            "waf": "Custar"
+        },
+        {
+            "description": "Use essa abordagem para detectar implantações econômicas ao longo do tempo e eliminar recursos não utilizados, o que evita custos desnecessários.",
+            "guid": "9ddcb977-4f4d-4c98-a7bc-daad82bf79fb",
+            "service": "Azure Firewall",
+            "text": "Identifique e exclua implantações de Firewall do Azure não utilizadas. Analise métricas de monitoramento e UDRs associadas a sub-redes que apontam para o IP privado do firewall. Considere também outras validações e documentação interna sobre seu ambiente e implantações. Por exemplo, analise qualquer NAT clássico, rede e regras de aplicativo para o Firewall do Azure. E considere suas configurações. Por exemplo, você pode definir a configuração de proxy DNS como Desabilitado.  Para obter mais informações, consulte Monitorar o Firewall do Azure.",
+            "type": "recommendation",
+            "waf": "Custar"
+        },
+        {
+            "description": "Use adequadamente o Firewall Manager e suas políticas para reduzir os custos operacionais, aumentar a eficiência e reduzir a sobrecarga de gerenciamento.",
+            "guid": "a42cec48-b5d7-467a-8296-4864c6e9b413",
+            "service": "Azure Firewall",
+            "text": "Revise cuidadosamente as políticas, associações e herança do Firewall Manager para otimizar os custos. As políticas são cobradas com base em associações de firewall. Uma política com zero ou uma associação de firewall é gratuita. Uma política com várias associações de firewall é cobrada a uma taxa fixa. Para obter mais informações, consulte Preços do Firewall Manager.",
+            "type": "recommendation",
+            "waf": "Custar"
+        },
+        {
+            "description": "Exclua endereços IP não utilizados para reduzir custos.",
+            "guid": "407db414-2814-4803-9b80-be5ff2a97950",
+            "service": "Azure Firewall",
+            "text": "Revise todos os endereços IP públicos em sua configuração e desassocie e exclua aqueles que você não usa. Avalie o uso da porta SNAT (conversão de endereços de rede de origem) antes de remover qualquer endereço IP.  Para obter mais informações, consulte Monitorar logs e métricas do Firewall do Azure e uso da porta SNAT.",
+            "type": "recommendation",
+            "waf": "Custar"
+        },
+        {
+            "description": "Habilite os logs de diagnóstico para otimizar suas ferramentas e estratégias de monitoramento para o Firewall do Azure.  Use logs de firewall estruturados para estruturar os dados de log para que seja fácil de pesquisar, filtrar e analisar. As ferramentas de monitoramento mais recentes são baseadas nesse tipo de log, portanto, geralmente é um pré-requisito.",
+            "guid": "fb2c3215-9576-49d1-a936-e302ef9049c2",
+            "service": "Azure Firewall",
+            "text": "Habilite os logs de diagnóstico para o Firewall do Azure. Use logs de firewall ou pastas de trabalho para monitorar o Firewall do Azure. Você também pode usar logs de atividades para auditar operações em recursos do Firewall do Azure.  Use o formato de logs de firewall estruturado. Use apenas o formato de logs de diagnóstico anterior se você tiver uma ferramenta existente que o exija. Não habilite os dois formatos de log ao mesmo tempo.",
+            "type": "recommendation",
+            "waf": "Operações"
+        },
+        {
+            "description": "Use a pasta de trabalho do Firewall do Azure para extrair insights valiosos de eventos do Firewall do Azure, analisar seu aplicativo e regras de rede e examinar estatísticas sobre atividades de firewall em URLs, portas e endereços.",
+            "guid": "913ed2e5-c63c-4325-8578-965c5c3c4b79",
+            "service": "Azure Firewall",
+            "text": "Use a pasta de trabalho interna do Firewall do Azure.",
+            "type": "recommendation",
+            "waf": "Operações"
+        },
+        {
+            "description": "Configure alertas para eventos importantes para notificar os operadores antes que surjam possíveis problemas, ajude a evitar interrupções e inicie ajustes rápidos de capacidade.",
+            "guid": "79268d8a-5829-4fb3-a1c6-d7ee9c980cd4",
+            "service": "Azure Firewall",
+            "text": "Monitore os logs e as métricas do Firewall do Azure e crie alertas para a capacidade do Firewall do Azure. Crie alertas para monitorar a taxa de transferência, o estado de integridade do firewall, a utilização da porta SNAT e as métricas de investigação de latência do AZFW.",
+            "type": "recommendation",
+            "waf": "Operações"
+        },
+        {
+            "description": "Use a análise de política para analisar o impacto de suas políticas de Firewall do Azure. Identifique possíveis problemas em suas políticas, como atender aos limites de políticas, regras inadequadas e uso inadequado de grupos de IP. Obtenha recomendações para melhorar sua postura de segurança e desempenho de processamento de regras.",
+            "guid": "63b266a4-285f-4fd4-a0fb-b6bb4c1ce75b",
+            "service": "Azure Firewall",
+            "text": "Revise regularmente o painel de análise de políticas para identificar possíveis problemas.",
+            "type": "recommendation",
+            "waf": "Operações"
+        },
+        {
+            "description": "Use consultas KQL para identificar rapidamente eventos dentro do firewall e verifique qual regra é acionada ou qual regra permite ou bloqueia uma solicitação.",
+            "guid": "37cc2cc2-5700-4e4b-bb0b-86e6acb11092",
+            "service": "Azure Firewall",
+            "text": "Entenda as consultas KQL para que você possa usar os logs do Firewall do Azure para analisar e solucionar problemas rapidamente. O Firewall do Azure fornece consultas de exemplo.",
+            "type": "recommendation",
+            "waf": "Operações"
+        },
+        {
+            "description": "Use a análise de políticas para identificar possíveis problemas em suas políticas, como atender aos limites de políticas, regras inadequadas e uso inadequado de grupos de IP. Obtenha recomendações para melhorar sua postura de segurança e desempenho de processamento de regras.",
+            "guid": "e9cf81c7-6938-44e1-83fe-0c16af8214fd",
+            "service": "Azure Firewall",
+            "text": "Use o painel de análise de política para identificar maneiras de otimizar as políticas do Firewall do Azure.",
+            "type": "recommendation",
+            "waf": "Desempenho"
+        },
+        {
+            "description": "Coloque as regras usadas com frequência no topo de um conjunto de regras para otimizar a latência de processamento. O Firewall do Azure processa regras com base no tipo de regra, herança, prioridade do grupo de coleta de regras e prioridade de coleção de regras. O Firewall do Azure processa primeiro os grupos de coleta de regras de alta prioridade. Dentro de um grupo de coleção de regras, o Firewall do Azure processa as coleções de regras que têm a prioridade mais alta primeiro.",
+            "guid": "4413e944-e222-419c-bc01-54f518dace78",
+            "service": "Azure Firewall",
+            "text": "Coloque as regras usadas com frequência no início de um grupo para otimizar a latência das políticas do Firewall do Azure que têm grandes conjuntos de regras.  Para obter mais informações, consulte Usar políticas de Firewall do Azure para processar regras.",
+            "type": "recommendation",
+            "waf": "Desempenho"
+        },
+        {
+            "description": "Essa abordagem aumenta efetivamente o número de endereços IP que você pode cobrir sem exceder o limite. Para cada regra, o Azure multiplica as portas por endereços IP. Portanto, se uma regra tiver quatro intervalos de endereços IP e cinco portas, você consumirá 20 regras de rede.",
+            "guid": "6acef044-ef2f-47b0-8463-5de890902930",
+            "service": "Azure Firewall",
+            "text": "Use grupos de IP para resumir intervalos de endereços IP e evitar exceder o limite de regras de rede de origem ou destino exclusivas. O Firewall do Azure trata o grupo de IP como um único endereço quando você cria regras de rede.",
+            "type": "recommendation",
+            "waf": "Desempenho"
+        },
+        {
+            "description": "Esse recurso categoriza dinamicamente o conteúdo da Web e permite a criação de regras compactas de aplicativos, o que reduz a sobrecarga operacional.",
+            "guid": "0a8a6e9c-57e9-40bd-8345-8b5abbcfa504",
+            "service": "Azure Firewall",
+            "text": "Use as categorias da Web do Firewall do Azure para permitir ou negar o acesso de saída em massa, em vez de criar e manter explicitamente uma longa lista de sites públicos da Internet.",
+            "type": "recommendation",
+            "waf": "Desempenho"
+        },
+        {
+            "description": "Habilite o IDPS no modo de alerta e negação para detectar e impedir atividades maliciosas na rede. Esse recurso pode introduzir uma penalidade de desempenho. Entenda o efeito em sua carga de trabalho para que você possa planejar adequadamente.",
+            "guid": "a281c1d2-e2da-458f-ad57-d67d19b8377e",
+            "service": "Azure Firewall",
+            "text": "Avalie o impacto no desempenho do IDPS no modo de alerta e negação. Para obter mais informações, consulte Desempenho do Firewall do Azure.",
+            "type": "recommendation",
+            "waf": "Desempenho"
+        },
+        {
+            "description": "O Firewall do Azure dá suporte a 2.496 portas para cada endereço IP público que cada instância de Conjuntos de Dimensionamento de Máquinas Virtuais do Azure de back-end usa. Essa configuração aumenta as portas SNAT disponíveis em cinco vezes.  Por padrão, o Firewall do Azure implanta duas instâncias de Conjuntos de Dimensionamento de Máquinas Virtuais que dão suporte a 4.992 portas para cada IP de destino de fluxo, porta de destino e protocolo TCP ou UDP. O firewall pode ser dimensionado até um máximo de 20 instâncias.",
+            "guid": "ffa8eeee-ff51-44ca-a416-275bcf54be52",
+            "service": "Azure Firewall",
+            "text": "Configure implantações do Firewall do Azure com um mínimo de cinco endereços IP públicos para implantações suscetíveis ao esgotamento da porta SNAT.",
+            "type": "recommendation",
+            "waf": "Desempenho"
+        }
+    ],
+    "metadata": {
+        "name": "Azure Firewall Service Guide",
+        "state": "preview",
+        "timestamp": "October 01, 2024",
+        "waf": "all"
+    },
+    "status": [
+        {
+            "description": "Esta verificação ainda não foi analisada",
+            "name": "Não verificado"
+        },
+        {
+            "description": "Há um item de ação associado a essa verificação",
+            "name": "Abrir"
+        },
+        {
+            "description": "Essa verificação foi verificada e não há mais itens de ação associados a ela",
+            "name": "Cumprido"
+        },
+        {
+            "description": "Não aplicável para o projeto atual",
+            "name": "N/A"
+        },
+        {
+            "description": "Não é necessário",
+            "name": "Não é necessário"
+        }
+    ],
+    "waf": [
+        {
+            "name": "Desempenho"
+        },
+        {
+            "name": "segurança"
+        },
+        {
+            "name": "desempenho"
+        },
+        {
+            "name": "Custar"
+        },
+        {
+            "name": "Fiabilidade"
+        },
+        {
+            "name": "Operações"
+        },
+        {
+            "name": "Operações"
+        },
+        {
+            "name": "fiabilidade"
+        },
+        {
+            "name": "Segurança"
+        },
+        {
+            "name": "custar"
+        }
+    ],
+    "yesno": [
+        {
+            "name": "Sim"
+        },
+        {
+            "name": "Não"
+        }
+    ]
+}

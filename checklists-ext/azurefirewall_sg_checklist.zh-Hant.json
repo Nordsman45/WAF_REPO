@@ -1,0 +1,314 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Azure/review-checklists/main/checklists/checklist.schema.json",
+    "categories": [],
+    "items": [
+        {
+            "description": "跨多個可用性區域部署 Azure 防火牆，以保持特定級別的復原能力。如果一個區域發生中斷，另一個區域將繼續為流量提供服務。",
+            "guid": "881f08f8-32f0-420d-b4f7-f0660a0402cb",
+            "service": "Azure Firewall",
+            "text": "跨多個可用性區域部署 Azure 防火牆。",
+            "type": "recommendation",
+            "waf": "可靠性"
+        },
+        {
+            "description": "監控資源指標和服務運行狀況，以便您可以檢測服務狀態何時降級，並採取主動措施來防止故障。",
+            "guid": "a61daca7-ba87-4a5f-8d72-6c4e61f1f8a1",
+            "service": "Azure Firewall",
+            "text": "監視Log Analytics工作區中的 Azure 防火牆指標。密切監視指示 Azure 防火牆運行狀況的指標，例如輸送量、防火牆運行狀況、SNAT 埠利用率和 AZFW 延遲探測指標。 使用 Azure 服務運行狀況監視 Azure 防火牆運行狀況。",
+            "type": "recommendation",
+            "waf": "可靠性"
+        },
+        {
+            "description": "使用強制隧道，這樣就不會將 Azure 資源直接暴露在 Internet 上。這種方法減少了攻擊面，並將外部威脅的風險降至最低。為了更有效地實施公司策略和合規性要求，請通過本地防火牆或 NVA 路由所有 Internet 綁定流量。",
+            "guid": "11c69324-ff8f-48aa-9e9e-9c954e29a121",
+            "service": "Azure Firewall",
+            "text": "如果需要將所有 Internet 綁定流量路由到指定的下一躍點，而不是直接路由到 Internet，請在強制隧道模式下配置 Azure 防火牆。此建議不適用於虛擬 WAN。<BR><BR> Azure 防火牆必須具有直接的 Internet 連接。如果 AzureFirewallSubnet 透過邊界閘道協定獲知到本地網路的預設路由，則必須在強制隧道模式下配置 Azure 防火牆。可以使用強制隧道功能為 Azure 防火牆管理子網添加另一個 /26 位址空間。將子網命名為 AzureFirewallManagementSubnet。如果你有一個現有的 Azure 防火牆實例，但無法在強制隧道模式下重新配置，請創建一個具有 0.0.0.0/0 路由的 UDR。將 NextHopType 值設置為 Internet。若要保持 Internet 連接，請將 UDR 與 AzureFirewallSubnet 相關聯。 將公共IP位址設置為 None，以便在強制隧道模式下配置 Azure 防火牆時部署完全專用的數據平面。但管理平面仍然需要僅用於管理目的的公有IP。來自虛擬和本地網路的內部流量不使用該公有IP。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "在分層結構中組織規則，以便精細策略可以滿足特定區域的要求。每個策略可以包含不同的目標網路位址轉換 （DNAT）、網路和應用程式規則集，這些規則具有特定的優先順序、操作和處理順序。",
+            "guid": "29a3b176-03b3-4273-b9f8-cdddee154009",
+            "service": "Azure Firewall",
+            "text": "在分層結構中為防火牆策略創建規則，以覆蓋中央基本策略。有關詳細資訊，請參閱使用 Azure 防火牆策略處理規則。<BR><BR> 根據最低許可權訪問 Zero Trust 原則創建規則",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "使 Azure 防火牆中的安全合作夥伴供應商能夠利用同類最佳的雲安全產品/服務，這些產品/服務為您的 Internet 流量提供高級保護。這些供應商提供專門的使用者感知過濾和全面的威脅檢測功能，以增強您的整體安全狀況。",
+            "guid": "f03b413a-c06c-4f22-98ad-6798b74f825e",
+            "service": "Azure Firewall",
+            "text": "在 Firewall Manager 中配置受支援的安全合作夥伴提供程式以保護出站連接。<BR><BR> 此方案需要在中心內使用 S2S VPN 閘道的虛擬 WAN，因為它使用 IPsec 隧道連接到供應商的基礎結構。託管安全服務提供者可能會收取額外的許可證費用並限制 IPsec 連接的輸送量。您還可以使用替代解決方案，例如 Zscaler Cloud Connector。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "啟用此功能可將虛擬網路中的用戶端作為 DNS 伺服器指向 Azure 防火牆。此功能可保護未直接訪問和暴露的內部 DNS 基礎設施。",
+            "guid": "98a53328-cf36-4d0e-b7dc-a15a8957ab3b",
+            "service": "Azure Firewall",
+            "text": "啟用 Azure 防火牆 DNS 代理配置。<BR><BR> 此外，將 Azure 防火牆配置為使用自定義 DNS 轉發 DNS 查詢。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "通過防火牆發送流量以檢查流量並幫助識別和阻止惡意流量。<BR><BR> 使用 Azure 防火牆作為出站流量的顯式代理，以便 Web 流量到達防火牆的專用 IP 位址，從而直接從防火牆傳出，而無需使用 UDR。此功能還有助於使用多個防火牆，而無需修改現有網路路由。",
+            "guid": "5a33a8c3-32ad-4df5-b10e-ae88d9341652",
+            "service": "Azure Firewall",
+            "text": "在傳統的中心輻射型體系結構中，將 UDR 配置為強制流量通過 Azure 防火牆，以實現分支到分支、分支到 Internet 和分支到混合連接。<BR><BR> 在虛擬 WAN 中，配置路由意向和策略，以通過集成到中心的 Azure 防火牆實例重定向專用流量或 Internet 流量。<BR><BR> 如果無法應用 UDR，並且只需要 Web 流量重定向，請使用 Azure 防火牆作為出站路徑上的顯式代理。將 Azure 防火牆配置為代理時，可以在發送應用程式（如 Web 瀏覽器）上配置代理設置。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "在 Azure 防火牆網路規則中使用 FQDN，以便管理員可以管理功能變數名稱而不是多個 IP 位址，從而簡化管理。此動態解析可確保防火牆規則在域IP更改時自動更新。",
+            "guid": "468a142a-2b62-4379-90d1-46a7d351716f",
+            "service": "Azure Firewall",
+            "text": "在網路規則中使用 FQDN 篩選。必須啟用 Azure 防火牆 DNS 代理配置才能在網路規則中使用 FQDN。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "在網路規則中使用服務標籤，以便您可以根據服務名稱而不是特定IP位址定義訪問控制，從而簡化安全管理。當IP位址更改時，Microsoft 會自動管理和更新這些標記。此方法可確保您的防火牆規則保持準確和有效，而無需人工干預。",
+            "guid": "d64d477e-8277-4f70-9727-8c1db0cd649c",
+            "service": "Azure Firewall",
+            "text": "使用 Azure 防火牆服務標記代替特定 IP 位址，以提供對 Azure、Microsoft Dynamics 365 和 Microsoft 365 中特定服務的選擇性訪問。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "在 Azure 防火牆應用程式規則中使用 FQDN 標記來表示與已知 Microsoft 服務關聯的一組 FQDN。此方法簡化了網路安全規則的管理。",
+            "guid": "f8f92e49-b7ed-40cc-ad7b-3431067dd488",
+            "service": "Azure Firewall",
+            "text": "在應用程式規則中使用 FQDN 標記以提供對特定 Microsoft 服務的選擇性訪問。<BR><BR> 您可以在應用程式規則中使用 FQDN 標記，以允許特定 Azure 服務（如 Microsoft 365、Windows 365 和 Microsoft Intune）所需的出站網路流量通過防火牆。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "使用威脅情報提供針對新出現的威脅的即時保護，從而降低網路攻擊的風險。此功能使用 Microsoft 威脅情報源自動提醒和阻止來自已知惡意 IP 位址、域和 URL 的流量。",
+            "guid": "ecce93c9-ffc9-498f-abdf-d29a618b8d1c",
+            "service": "Azure Firewall",
+            "text": "在警報和拒絕模式下在 Azure 防火牆上啟用威脅情報。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "在 Azure 防火牆中啟用 IDPS 篩選可即時監視和分析網路流量，以檢測和防止惡意活動。此功能使用基於簽名的檢測來快速識別已知威脅並在它們造成傷害之前將其阻止。 有關更多資訊，請參閱檢測濫用。",
+            "guid": "754d917c-b22f-4fe7-92b1-d0d88b5b1873",
+            "service": "Azure Firewall",
+            "text": "在 Alert 或 Alert and deny 模式下啟用 IDPS。考慮此功能對性能的影響。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "啟用 TLS 檢查，以便 Azure 防火牆高級版終止並檢查 TLS 連接，以檢測、提醒和緩解 HTTPS 中的惡意活動。",
+            "guid": "9e220953-da77-44f0-9e85-ccc7743e2d2a",
+            "service": "Azure Firewall",
+            "text": "將 TLS 檢查與 Azure 防火牆高級版配合使用時，使用內部企業證書頒發機構 （CA） 產生證書。僅將自簽名證書用於測試和概念驗證 （PoC） 目的。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "配置 Azure DDoS 防護計劃，以便您可以集中管理 DDoS 防護以及防火牆策略。這種方法簡化了您管理網路安全的方式，並簡化了部署和監控流程的方式。",
+            "guid": "fe3488cd-72a6-4672-b26b-64b1a0e9f625",
+            "service": "Azure Firewall",
+            "text": "使用防火牆管理器創建 Azure DDoS 防護計劃並將其與中心虛擬網路相關聯。此方法不適用於虛擬 WAN。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "在非高峰時段或空閒時關閉這些部署，以減少不必要的開支，同時在關鍵時期保持安全性和性能。",
+            "guid": "463b7549-f012-4554-a6df-4ea62350cc52",
+            "service": "Azure Firewall",
+            "text": "停止不需要持續運行的 Azure 防火牆部署。您可能擁有僅在工作時間使用的開發或測試環境。有關詳細資訊，請參閱解除分配和分配 Azure 防火牆。",
+            "type": "recommendation",
+            "waf": "成本"
+        },
+        {
+            "description": "優化通過防火牆生成最多流量的工作負載，以減少流量，從而減少防火牆上的負載並最大限度地降低數據處理和頻寬成本。",
+            "guid": "ccd04d1a-611b-4c77-aef7-96d1ac1470d1",
+            "service": "Azure Firewall",
+            "text": "定期查看 Azure 防火牆處理的流量，並查找原始工作負載優化。排名靠前的流日誌（也稱為 fat 流日誌）顯示有助於通過防火牆實現最高輸送量的排名靠前的連接。",
+            "type": "recommendation",
+            "waf": "成本"
+        },
+        {
+            "description": "使用此方法可以檢測一段時間內經濟高效的部署，並消除未使用的資源，從而防止不必要的成本。",
+            "guid": "9ddcb977-4f4d-4c98-a7bc-daad82bf79fb",
+            "service": "Azure Firewall",
+            "text": "識別並刪除未使用的 Azure 防火牆部署。分析與指向防火牆私有IP的子網關聯的監控指標和UDR。此外，請考慮有關您的環境和部署的其他驗證和內部文檔。例如，分析 Azure 防火牆的任何經典 NAT、網路和應用程式規則。並考慮您的設置。例如，您可以將 DNS 代理設置配置為 Disabled。 有關詳細資訊，請參閱監視 Azure 防火牆。",
+            "type": "recommendation",
+            "waf": "成本"
+        },
+        {
+            "description": "正確使用 Firewall Manager 及其策略來降低運營成本、提高效率並減少管理開銷。",
+            "guid": "a42cec48-b5d7-467a-8296-4864c6e9b413",
+            "service": "Azure Firewall",
+            "text": "仔細檢查您的 Firewall Manager 策略、關聯和繼承，以優化成本。策略根據防火牆關聯計費。具有零個或一個防火牆關聯的策略是免費的。具有多個防火牆關聯的策略按固定費率計費。有關更多資訊，請參閱 Firewall Manager 定價。",
+            "type": "recommendation",
+            "waf": "成本"
+        },
+        {
+            "description": "刪除未使用的IP位址以降低成本。",
+            "guid": "407db414-2814-4803-9b80-be5ff2a97950",
+            "service": "Azure Firewall",
+            "text": "查看配置中的所有公有IP位址，並取消關聯並刪除您不使用的位址。在刪除任何IP位址之前，請評估源網路位址轉換 （SNAT） 埠的使用方式。 有關詳細資訊，請參閱監視 Azure 防火牆日誌和指標和 SNAT 埠使用方式。",
+            "type": "recommendation",
+            "waf": "成本"
+        },
+        {
+            "description": "啟用診斷日誌以優化 Azure 防火牆的監視工具和策略。 使用結構化防火牆日誌來構建日誌數據，以便於搜索、篩選和分析。最新的監控工具基於這種類型的日誌，因此這通常是先決條件。",
+            "guid": "fb2c3215-9576-49d1-a936-e302ef9049c2",
+            "service": "Azure Firewall",
+            "text": "為 Azure 防火牆啟用診斷日誌。使用防火牆日誌或工作簿來監視 Azure 防火牆。還可以使用活動日誌來審核對 Azure 防火牆資源的操作。 使用結構化防火牆日誌格式。如果您有需要的現有工具，請僅使用以前的診斷日誌格式。不要同時啟用這兩種日誌記錄格式。",
+            "type": "recommendation",
+            "waf": "操作"
+        },
+        {
+            "description": "使用 Azure 防火牆工作簿從 Azure 防火牆事件中提取有價值的見解，分析應用程式和網路規則，並檢查有關跨 URL、埠和位址的防火牆活動的統計資訊。",
+            "guid": "913ed2e5-c63c-4325-8578-965c5c3c4b79",
+            "service": "Azure Firewall",
+            "text": "使用內置的 Azure 防火牆工作簿。",
+            "type": "recommendation",
+            "waf": "操作"
+        },
+        {
+            "description": "為關鍵事件設置警報，以便在潛在問題出現之前通知操作員，説明防止中斷，並啟動快速容量調整。",
+            "guid": "79268d8a-5829-4fb3-a1c6-d7ee9c980cd4",
+            "service": "Azure Firewall",
+            "text": "監視 Azure 防火牆日誌和指標，併為 Azure 防火牆容量創建警報。創建警報以監控輸送量、防火牆運行狀況、SNAT 埠利用率和 AZFW 延遲探測指標。",
+            "type": "recommendation",
+            "waf": "操作"
+        },
+        {
+            "description": "使用策略分析來分析 Azure 防火牆策略的影響。識別策略中的潛在問題，例如滿足策略限制、規則不當和IP組使用不當。獲取建議以改善您的安全狀況和規則處理性能。",
+            "guid": "63b266a4-285f-4fd4-a0fb-b6bb4c1ce75b",
+            "service": "Azure Firewall",
+            "text": "定期查看策略分析儀錶板以識別潛在問題。",
+            "type": "recommendation",
+            "waf": "操作"
+        },
+        {
+            "description": "使用 KQL 查詢快速識別防火牆內的事件，並檢查觸發了哪個規則或哪個規則允許或阻止請求。",
+            "guid": "37cc2cc2-5700-4e4b-bb0b-86e6acb11092",
+            "service": "Azure Firewall",
+            "text": "瞭解 KQL 查詢，以便可以使用 Azure 防火牆日誌快速分析和排查問題。Azure 防火牆提供了示例查詢。",
+            "type": "recommendation",
+            "waf": "操作"
+        },
+        {
+            "description": "使用策略分析來識別策略中的潛在問題，例如滿足策略限制、規則不當和IP組使用不當。獲取建議以改善您的安全狀況和規則處理性能。",
+            "guid": "e9cf81c7-6938-44e1-83fe-0c16af8214fd",
+            "service": "Azure Firewall",
+            "text": "使用策略分析儀錶板確定優化 Azure 防火牆策略的方法。",
+            "type": "recommendation",
+            "waf": "性能"
+        },
+        {
+            "description": "將常用規則放在規則集中的較高位置，以優化處理延遲。Azure 防火牆根據規則類型、繼承、規則集合組優先順序和規則集合優先順序處理規則。Azure 防火牆首先處理高優先順序規則集合組。在規則集合組中，Azure 防火牆首先處理優先順序最高的規則集合。",
+            "guid": "4413e944-e222-419c-bc01-54f518dace78",
+            "service": "Azure Firewall",
+            "text": "將常用規則放在組的前面，以優化具有大型規則集的 Azure 防火牆策略的延遲。 有關詳細資訊，請參閱使用 Azure 防火牆策略處理規則。",
+            "type": "recommendation",
+            "waf": "性能"
+        },
+        {
+            "description": "此方法可以有效地增加您可以覆蓋的IP位址數量，而不會超出限制。對於每個規則，Azure 將埠乘以IP位址。因此，如果一個規則有 4 個 IP 位址範圍和 5 個埠，則使用 20 個網路規則。",
+            "guid": "6acef044-ef2f-47b0-8463-5de890902930",
+            "service": "Azure Firewall",
+            "text": "使用IP組匯總IP位址範圍，避免超出唯一源或唯一目標網路規則的限制。創建網路規則時，Azure 防火牆將IP組視為單個位址。",
+            "type": "recommendation",
+            "waf": "性能"
+        },
+        {
+            "description": "此功能對 Web 內容進行動態分類，並允許創建緊湊的應用程式規則，從而減少運營開銷。",
+            "guid": "0a8a6e9c-57e9-40bd-8345-8b5abbcfa504",
+            "service": "Azure Firewall",
+            "text": "使用 Azure 防火牆 Web 類別批量允許或拒絕出站訪問，而不是顯式構建和維護一長串公共 Internet 網站。",
+            "type": "recommendation",
+            "waf": "性能"
+        },
+        {
+            "description": "在警報和拒絕模式下啟用IDPS，以檢測和防止惡意網路活動。此功能可能會降低性能。瞭解對工作負載的影響，以便您可以相應地進行規劃。",
+            "guid": "a281c1d2-e2da-458f-ad57-d67d19b8377e",
+            "service": "Azure Firewall",
+            "text": "評估IDPS在警報和拒絕模式下的性能影響。有關詳細資訊，請參閱 Azure 防火牆性能。",
+            "type": "recommendation",
+            "waf": "性能"
+        },
+        {
+            "description": "Azure 防火牆支援每個後端 Azure 虛擬機規模集實例使用的每個公共 IP 位址有 2,496 個埠。此配置將可用的 SNAT 埠數增加 5 倍。 默認情況下，Azure 防火牆部署兩個虛擬機規模集實例，每個流目標 IP、目標埠以及 TCP 或 UDP 協議支援 4,992 個埠。防火牆最多可擴展到20個實例。",
+            "guid": "ffa8eeee-ff51-44ca-a416-275bcf54be52",
+            "service": "Azure Firewall",
+            "text": "為易受 SNAT 埠耗盡影響的部署配置至少五個公共 IP 位址的 Azure 防火牆部署。",
+            "type": "recommendation",
+            "waf": "性能"
+        }
+    ],
+    "metadata": {
+        "name": "Azure Firewall Service Guide",
+        "state": "preview",
+        "timestamp": "October 01, 2024",
+        "waf": "all"
+    },
+    "status": [
+        {
+            "description": "尚未查看此檢查",
+            "name": "未驗證"
+        },
+        {
+            "description": "存在與此檢查關聯的操作項",
+            "name": "打開"
+        },
+        {
+            "description": "此檢查已經過驗證，沒有與之關聯的其他操作項",
+            "name": "實現"
+        },
+        {
+            "description": "不適用於當前設計",
+            "name": "不適用"
+        },
+        {
+            "description": "不需要",
+            "name": "不需要"
+        }
+    ],
+    "waf": [
+        {
+            "name": "性能"
+        },
+        {
+            "name": "安全"
+        },
+        {
+            "name": "性能"
+        },
+        {
+            "name": "成本"
+        },
+        {
+            "name": "可靠性"
+        },
+        {
+            "name": "操作"
+        },
+        {
+            "name": "操作"
+        },
+        {
+            "name": "可靠性"
+        },
+        {
+            "name": "安全"
+        },
+        {
+            "name": "成本"
+        }
+    ],
+    "yesno": [
+        {
+            "name": "是的"
+        },
+        {
+            "name": "不"
+        }
+    ]
+}

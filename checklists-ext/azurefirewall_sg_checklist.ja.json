@@ -1,0 +1,314 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Azure/review-checklists/main/checklists/checklist.schema.json",
+    "categories": [],
+    "items": [
+        {
+            "description": "Azure Firewall を複数の可用性ゾーンにデプロイして、特定のレベルの回復性を維持します。1 つのゾーンで障害が発生した場合でも、別のゾーンは引き続きトラフィックを処理します。",
+            "guid": "881f08f8-32f0-420d-b4f7-f0660a0402cb",
+            "service": "Azure Firewall",
+            "text": "Azure Firewall を複数の可用性ゾーンにデプロイします。",
+            "type": "recommendation",
+            "waf": "確実"
+        },
+        {
+            "description": "リソースメトリクスとサービスの正常性を監視して、サービスの状態が劣化するタイミングを検出し、障害を防ぐための予防的な対策を講じることができます。",
+            "guid": "a61daca7-ba87-4a5f-8d72-6c4e61f1f8a1",
+            "service": "Azure Firewall",
+            "text": "Log Analytics ワークスペースで Azure Firewall メトリックを監視します。Azure Firewall の正常性状態を示すメトリック (スループット、ファイアウォールの正常性状態、SNAT ポートの使用率、AZFW 待機時間プローブ メトリックなど) を詳しく監視します。 Azure Service Health を使用して、Azure Firewall の正常性を監視します。",
+            "type": "recommendation",
+            "waf": "確実"
+        },
+        {
+            "description": "強制トンネリングを使用して、Azure リソースを直接インターネットに公開しないようにします。このアプローチにより、攻撃対象領域が縮小され、外部の脅威のリスクが最小限に抑えられます。企業のポリシーとコンプライアンス要件をより効果的に適用するには、インターネットへのすべてのトラフィックをオンプレミスのファイアウォールまたは NVA 経由でルーティングします。",
+            "guid": "11c69324-ff8f-48aa-9e9e-9c954e29a121",
+            "service": "Azure Firewall",
+            "text": "インターネットへのすべてのトラフィックを、インターネットに直接ではなく、指定された次ホップにルーティングする必要がある場合は、Azure Firewall を強制トンネリング モードで構成します。この推奨事項は Virtual WAN には適用されません。<BR><BR> Azure Firewall には、インターネットに直接接続できる必要があります。AzureFirewallSubnet が Border Gateway Protocol を介してオンプレミス ネットワークへの既定のルートを学習する場合は、Azure Firewall を強制トンネリング モードで構成する必要があります。強制トンネリング機能を使用して、Azure Firewall Management サブネットに別の /26 アドレス空間を追加できます。サブネットに AzureFirewallManagementSubnet という名前を付けます。強制トンネリング モードで再構成できない既存の Azure Firewall インスタンスがある場合は、0.0.0.0/0 ルートを使用して UDR を作成します。NextHopType の値を Internet に設定します。インターネット接続を維持するには、UDR を AzureFirewallSubnet に関連付けます。 パブリック IP アドレスを [なし] に設定して、Azure Firewall を強制トンネリング モードで構成するときに、完全にプライベート データ プレーンをデプロイします。ただし、管理プレーンには、管理目的のみにパブリック IP が必要です。仮想ネットワークとオンプレミス ネットワークからの内部トラフィックでは、そのパブリック IP は使用されません。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "ルールを階層構造に整理して、きめ細かなポリシーが特定のリージョンの要件を満たすことができるようにします。各ポリシーには、特定の優先度、アクション、および処理順序を持つ宛先ネットワーク アドレス変換 (DNAT)、ネットワーク、およびアプリケーション ルールの異なるセットを含めることができます。",
+            "guid": "29a3b176-03b3-4273-b9f8-cdddee154009",
+            "service": "Azure Firewall",
+            "text": "階層構造でファイアウォールポリシーのルールを作成し、中央の基本ポリシーをオーバーレイします。詳細については、「Azure Firewall ポリシーを使用してルールを処理する」を参照してください。<BR><BR> 最小特権アクセスのゼロトラスト原則に基づいてルールを作成する",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "Azure Firewall のセキュリティ パートナー プロバイダーが、インターネット トラフィックの高度な保護を提供する最高のクラウド セキュリティ オファリングを活用できるようにします。これらのプロバイダーは、ユーザー認識型の特殊なフィルタリング機能と包括的な脅威検出機能を提供し、全体的なセキュリティ体制を強化します。",
+            "guid": "f03b413a-c06c-4f22-98ad-6798b74f825e",
+            "service": "Azure Firewall",
+            "text": "Firewall Manager 内でサポートされているセキュリティパートナープロバイダを設定して、アウトバウンド接続を保護します。<BR><BR> このシナリオでは、プロバイダーのインフラストラクチャに接続するために IPsec トンネルを使用するため、ハブに S2S VPN ゲートウェイを持つ Virtual WAN が必要です。マネージドセキュリティサービスプロバイダーは、追加のライセンス料を請求し、IPsec接続のスループットを制限する場合があります。また、Zscaler Cloud Connectorなどの代替ソリューションを使用することもできます。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "この機能を有効にすると、仮想ネットワーク内のクライアントが DNS サーバーとして Azure Firewall にポイントされます。この機能は、直接アクセスされず、公開されていない内部 DNS インフラストラクチャを保護します。",
+            "guid": "98a53328-cf36-4d0e-b7dc-a15a8957ab3b",
+            "service": "Azure Firewall",
+            "text": "Azure Firewall DNS プロキシ構成を有効にします。<BR><BR> また、DNS クエリの転送にカスタム DNS を使用するように Azure Firewall を構成します。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "ファイアウォールを介してトラフィックを送信してトラフィックを検査し、悪意のあるトラフィックを特定してブロックします。<BR><BR> Azure Firewall を送信トラフィックの明示的なプロキシとして使用すると、Web トラフィックはファイアウォールのプライベート IP アドレスに到達し、UDR を使用せずにファイアウォールから直接送信されます。また、この機能により、既存のネットワークルートを変更せずに複数のファイアウォールを簡単に使用できます。",
+            "guid": "5a33a8c3-32ad-4df5-b10e-ae88d9341652",
+            "service": "Azure Firewall",
+            "text": "従来のハブ アンド スポーク アーキテクチャで、スポーク間、スポークからインターネット、およびスポークとハイブリッド間の接続のために、Azure Firewall 経由のトラフィックを強制するように UDR を構成します。<BR><BR> Virtual WAN で、ルーティングの意図とポリシーを構成して、ハブに統合された Azure Firewall インスタンスを介してプライベート トラフィックまたはインターネット トラフィックをリダイレクトします。<BR><BR> UDR を適用できず、Web トラフィックのリダイレクトのみが必要な場合は、送信パスで明示的なプロキシとして Azure Firewall を使用します。Azure Firewall をプロキシとして構成する場合は、Web ブラウザーなどの送信側アプリケーションでプロキシ設定を構成できます。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "Azure Firewall ネットワーク ルールで FQDN を使用すると、管理者は複数の IP アドレスではなくドメイン名を管理できるため、管理が簡単になります。この動的な解決により、ドメイン IP が変更されたときにファイアウォール ルールが自動的に更新されます。",
+            "guid": "468a142a-2b62-4379-90d1-46a7d351716f",
+            "service": "Azure Firewall",
+            "text": "ネットワークルールで FQDN フィルタリングを使用します。ネットワーク規則で FQDN を使用するには、Azure Firewall DNS プロキシ構成を有効にする必要があります。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "ネットワーク ルールでサービス タグを使用すると、特定の IP アドレスではなくサービス名に基づいてアクセス制御を定義できるため、セキュリティ管理が簡単になります。Microsoft は、IP アドレスが変更されたときに、これらのタグを自動的に管理および更新します。この方法により、ファイアウォールルールが正確かつ効果的なままで、手動による介入がなくても維持されます。",
+            "guid": "d64d477e-8277-4f70-9727-8c1db0cd649c",
+            "service": "Azure Firewall",
+            "text": "特定の IP アドレスの代わりに Azure Firewall サービス タグを使用して、Azure、Microsoft Dynamics 365、Microsoft 365 の特定のサービスへの選択的なアクセスを提供します。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "Azure Firewall アプリケーション規則で FQDN タグを使用して、既知の Microsoft サービスに関連付けられている FQDN のグループを表します。この方法により、ネットワーク セキュリティ規則の管理が簡略化されます。",
+            "guid": "f8f92e49-b7ed-40cc-ad7b-3431067dd488",
+            "service": "Azure Firewall",
+            "text": "アプリケーションルールで FQDN タグを使用して、特定の Microsoft サービスへの選択的なアクセスを提供します。<BR><BR> アプリケーション規則で FQDN タグを使用すると、Microsoft 365、Windows 365、Microsoft Intune などの特定の Azure サービスに対して、ファイアウォール経由で必要な送信ネットワーク トラフィックを許可できます。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "脅威インテリジェンスを使用して、新たな脅威に対するリアルタイムの保護を提供し、サイバー攻撃のリスクを軽減します。この機能は、Microsoft の脅威インテリジェンス フィードを使用して、既知の悪意のある IP アドレス、ドメイン、URL からのトラフィックを自動的にアラートし、ブロックします。",
+            "guid": "ecce93c9-ffc9-498f-abdf-d29a618b8d1c",
+            "service": "Azure Firewall",
+            "text": "Azure Firewall の脅威インテリジェンスをアラート モードと拒否モードで有効にします。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "Azure Firewall で IDPS フィルタリングを有効にすると、ネットワーク トラフィックのリアルタイムの監視と分析が提供され、悪意のあるアクティビティを検出して防止できます。この機能は、シグネチャベースの検出を使用して、既知の脅威を迅速に特定し、害を及ぼす前にブロックします。 詳細については、「不正使用の検出」を参照してください。",
+            "guid": "754d917c-b22f-4fe7-92b1-d0d88b5b1873",
+            "service": "Azure Firewall",
+            "text": "IDPSをアラートまたはアラートと拒否モードで有効にします。この機能のパフォーマンスへの影響を考慮してください。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "TLS 検査を有効にすると、Azure Firewall Premium で TLS 接続が終了して検査され、HTTPS での悪意のあるアクティビティが検出、アラート、軽減されます。",
+            "guid": "9e220953-da77-44f0-9e85-ccc7743e2d2a",
+            "service": "Azure Firewall",
+            "text": "Azure Firewall Premium で TLS 検査を使用する場合は、内部のエンタープライズ証明機関 (CA) を使用して証明書を生成します。自己署名証明書は、テストと概念実証 (PoC) の目的でのみ使用してください。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "Azure DDoS Protection プランを構成して、ファイアウォール ポリシーと共に DDoS Protection を一元的に管理できるようにします。このアプローチにより、ネットワーク セキュリティの管理方法が合理化され、プロセスのデプロイと監視の方法が簡素化されます。",
+            "guid": "fe3488cd-72a6-4672-b26b-64b1a0e9f625",
+            "service": "Azure Firewall",
+            "text": "Firewall Manager を使用して、Azure DDoS Protection プランを作成し、ハブ仮想ネットワークに関連付けます。このアプローチは Virtual WAN には適用されません。",
+            "type": "recommendation",
+            "waf": "安全"
+        },
+        {
+            "description": "これらのデプロイは、オフピーク時やアイドル状態のときにシャットダウンして、不要な費用を削減しながら、重要な時期にセキュリティとパフォーマンスを維持します。",
+            "guid": "463b7549-f012-4554-a6df-4ea62350cc52",
+            "service": "Azure Firewall",
+            "text": "継続的に実行する必要のない Azure Firewall のデプロイを停止します。営業時間内のみ使用する開発環境またはテスト環境がある場合があります。詳細については、「Azure Firewall の割り当て解除と割り当て」を参照してください。",
+            "type": "recommendation",
+            "waf": "費用"
+        },
+        {
+            "description": "ファイアウォール経由で最も多くのトラフィックを生成するワークロードを最適化して、トラフィックの量を減らし、ファイアウォールの負荷を減らし、データ処理と帯域幅のコストを最小限に抑えます。",
+            "guid": "ccd04d1a-611b-4c77-aef7-96d1ac1470d1",
+            "service": "Azure Firewall",
+            "text": "Azure Firewall が処理するトラフィックを定期的に確認し、元のワークロードの最適化を見つけます。上位フロー ログ (ファット フロー ログとも呼ばれます) には、ファイアウォール経由で最大のスループットに貢献した上位の接続が表示されます。",
+            "type": "recommendation",
+            "waf": "費用"
+        },
+        {
+            "description": "このアプローチを使用して、コスト効率の高いデプロイを経時的に検出し、未使用のリソースを排除することで、不要なコストを防ぐことができます。",
+            "guid": "9ddcb977-4f4d-4c98-a7bc-daad82bf79fb",
+            "service": "Azure Firewall",
+            "text": "未使用の Azure Firewall デプロイを特定して削除します。ファイアウォールのプライベート IP を指すサブネットに関連付けられている監視メトリックと UDR を分析します。また、環境とデプロイに関する他の検証と内部ドキュメントも考慮してください。たとえば、Azure Firewall の従来の NAT、ネットワーク、およびアプリケーションのルールを分析します。そして、あなたの設定を考慮してください。たとえば、DNS プロキシ設定を [無効] に構成できます。 詳細については、「Azure Firewall の監視」を参照してください。",
+            "type": "recommendation",
+            "waf": "費用"
+        },
+        {
+            "description": "Firewall Managerとそのポリシーを適切に使用して、運用コストを削減し、効率を高め、管理オーバーヘッドを削減します。",
+            "guid": "a42cec48-b5d7-467a-8296-4864c6e9b413",
+            "service": "Azure Firewall",
+            "text": "Firewall Manager のポリシー、関連付け、および継承を慎重に確認して、コストを最適化します。ポリシーは、ファイアウォールの関連付けに基づいて請求されます。ファイアウォールの関連付けが 0 個または 1 個のポリシーは無料です。複数のファイアウォールの関連付けを持つポリシーは、固定料金で請求されます。詳細については、「Firewall Manager の料金表」を参照してください。",
+            "type": "recommendation",
+            "waf": "費用"
+        },
+        {
+            "description": "未使用のIPアドレスを削除してコストを削減します。",
+            "guid": "407db414-2814-4803-9b80-be5ff2a97950",
+            "service": "Azure Firewall",
+            "text": "構成内のすべてのパブリック IP アドレスを確認し、使用しないアドレスの関連付けを解除して削除します。IP アドレスを削除する前に、送信元ネットワーク アドレス変換 (SNAT) ポートの使用状況を評価します。 詳細については、「Azure Firewall のログとメトリックを監視する」および「SNAT ポートの使用状況」を参照してください。",
+            "type": "recommendation",
+            "waf": "費用"
+        },
+        {
+            "description": "診断ログを有効にして、Azure Firewall の監視ツールと戦略を最適化します。 構造化されたファイアウォールログを使用してログデータを構造化し、検索、フィルタリング、分析を容易にします。最新の監視ツールはこのタイプのログに基づいているため、多くの場合、これは前提条件です。",
+            "guid": "fb2c3215-9576-49d1-a936-e302ef9049c2",
+            "service": "Azure Firewall",
+            "text": "Azure Firewall の診断ログを有効にします。ファイアウォール ログまたはブックを使用して、Azure Firewall を監視します。アクティビティ ログを使用して、Azure Firewall リソースに対する操作を監査することもできます。 構造化されたファイアウォール ログ形式を使用します。以前の診断ログ形式は、それを必要とする既存のツールがある場合にのみ使用してください。両方のログ記録形式を同時に有効にしないでください。",
+            "type": "recommendation",
+            "waf": "オペレーションズ"
+        },
+        {
+            "description": "Azure Firewall ブックを使用して、Azure Firewall イベントから貴重な分析情報を抽出し、アプリケーションとネットワークのルールを分析し、URL、ポート、アドレス間のファイアウォール アクティビティに関する統計を調べます。",
+            "guid": "913ed2e5-c63c-4325-8578-965c5c3c4b79",
+            "service": "Azure Firewall",
+            "text": "組み込みの Azure Firewall ブックを使用します。",
+            "type": "recommendation",
+            "waf": "オペレーションズ"
+        },
+        {
+            "description": "主要なイベントのアラートを設定して、潜在的な問題が発生する前にオペレーターに通知し、中断を防ぎ、迅速な容量調整を開始します。",
+            "guid": "79268d8a-5829-4fb3-a1c6-d7ee9c980cd4",
+            "service": "Azure Firewall",
+            "text": "Azure Firewall のログとメトリックを監視し、Azure Firewall の容量に関するアラートを作成します。スループット、ファイアウォールの正常性状態、SNAT ポートの使用率、AZFW 待機時間プローブのメトリックを監視するアラートを作成します。",
+            "type": "recommendation",
+            "waf": "オペレーションズ"
+        },
+        {
+            "description": "ポリシー分析を使用して、Azure Firewall ポリシーの影響を分析します。ポリシーの制限を満たす、不適切なルール、不適切な IP グループの使用など、ポリシーの潜在的な問題を特定します。セキュリティ体制とルール処理のパフォーマンスを向上させるための推奨事項を取得します。",
+            "guid": "63b266a4-285f-4fd4-a0fb-b6bb4c1ce75b",
+            "service": "Azure Firewall",
+            "text": "ポリシー分析ダッシュボードを定期的に確認して、潜在的な問題を特定します。",
+            "type": "recommendation",
+            "waf": "オペレーションズ"
+        },
+        {
+            "description": "KQL クエリを使用すると、ファイアウォール内のイベントをすばやく特定し、トリガーされたルールや、要求を許可またはブロックするルールを確認できます。",
+            "guid": "37cc2cc2-5700-4e4b-bb0b-86e6acb11092",
+            "service": "Azure Firewall",
+            "text": "KQL クエリを理解して、Azure Firewall ログを使用して問題を迅速に分析し、トラブルシューティングできるようにします。Azure Firewall には、サンプル クエリが用意されています。",
+            "type": "recommendation",
+            "waf": "オペレーションズ"
+        },
+        {
+            "description": "ポリシー分析を使用して、ポリシーの制限を満たす、不適切なルール、不適切な IP グループの使用など、ポリシーの潜在的な問題を特定します。セキュリティ体制とルール処理のパフォーマンスを向上させるための推奨事項を取得します。",
+            "guid": "e9cf81c7-6938-44e1-83fe-0c16af8214fd",
+            "service": "Azure Firewall",
+            "text": "ポリシー分析ダッシュボードを使用して、Azure Firewall ポリシーを最適化する方法を特定します。",
+            "type": "recommendation",
+            "waf": "パフォーマンス"
+        },
+        {
+            "description": "頻繁に使用するルールをルールセットの上位に配置して、処理の遅延を最適化します。Azure Firewall は、ルールの種類、継承、ルール コレクション グループの優先度、およびルール コレクションの優先度に基づいてルールを処理します。Azure Firewall は、優先度の高いルール コレクション グループを最初に処理します。ルール コレクション グループ内では、Azure Firewall は優先度が最も高いルール コレクションを最初に処理します。",
+            "guid": "4413e944-e222-419c-bc01-54f518dace78",
+            "service": "Azure Firewall",
+            "text": "頻繁に使用されるルールをグループの早い段階に配置して、大きなルール セットを持つ Azure Firewall ポリシーの待機時間を最適化します。 詳細については、「Azure Firewall ポリシーを使用してルールを処理する」を参照してください。",
+            "type": "recommendation",
+            "waf": "パフォーマンス"
+        },
+        {
+            "description": "このアプローチにより、制限を超えずにカバーできる IP アドレスの数を効果的に増やすことができます。ルールごとに、Azure はポートに IP アドレスを乗算します。したがって、1 つのルールに 4 つの IP アドレス範囲と 5 つのポートがある場合、20 個のネットワーク ルールが消費されます。",
+            "guid": "6acef044-ef2f-47b0-8463-5de890902930",
+            "service": "Azure Firewall",
+            "text": "IP グループを使用して IP アドレス範囲を要約し、一意の送信元または一意の宛先ネットワーク ルールの制限を超えないようにします。Azure Firewall では、ネットワーク ルールを作成するときに、IP グループを 1 つのアドレスとして扱います。",
+            "type": "recommendation",
+            "waf": "パフォーマンス"
+        },
+        {
+            "description": "この機能は、Web コンテンツを動的に分類し、コンパクトなアプリケーションルールの作成を可能にするため、運用上のオーバーヘッドが削減されます。",
+            "guid": "0a8a6e9c-57e9-40bd-8345-8b5abbcfa504",
+            "service": "Azure Firewall",
+            "text": "Azure Firewall の Web カテゴリを使用して、パブリック インターネット サイトの長いリストを明示的に作成して維持する代わりに、送信アクセスを一括で許可または拒否します。",
+            "type": "recommendation",
+            "waf": "パフォーマンス"
+        },
+        {
+            "description": "アラートおよび拒否モードでIDPSを有効にして、悪意のあるネットワークアクティビティを検出して防止します。この機能により、パフォーマンスが低下する可能性があります。ワークロードへの影響を理解し、それに応じて計画を立てることができます。",
+            "guid": "a281c1d2-e2da-458f-ad57-d67d19b8377e",
+            "service": "Azure Firewall",
+            "text": "アラート モードと拒否モードでの IDPS のパフォーマンスへの影響を評価します。詳細については、「Azure Firewall のパフォーマンス」を参照してください。",
+            "type": "recommendation",
+            "waf": "パフォーマンス"
+        },
+        {
+            "description": "Azure Firewall では、各バックエンドの Azure Virtual Machine Scale Sets インスタンスで使用されるパブリック IP アドレスごとに 2,496 個のポートがサポートされています。この構成により、使用可能な SNAT ポートが 5 倍に増加します。 既定では、Azure Firewall は、フローの宛先 IP、宛先ポート、TCP または UDP プロトコルごとに 4,992 ポートをサポートする 2 つの Virtual Machine Scale Sets インスタンスをデプロイします。ファイアウォールは、最大 20 インスタンスまでスケールアップできます。",
+            "guid": "ffa8eeee-ff51-44ca-a416-275bcf54be52",
+            "service": "Azure Firewall",
+            "text": "Azure Firewall のデプロイは、SNAT ポートの枯渇の影響を受けやすいデプロイに対して、少なくとも 5 つのパブリック IP アドレスで構成します。",
+            "type": "recommendation",
+            "waf": "パフォーマンス"
+        }
+    ],
+    "metadata": {
+        "name": "Azure Firewall Service Guide",
+        "state": "preview",
+        "timestamp": "October 01, 2024",
+        "waf": "all"
+    },
+    "status": [
+        {
+            "description": "このチェックはまだ見ていません",
+            "name": "未確認"
+        },
+        {
+            "description": "このチェックにはアクションアイテムが関連付けられています",
+            "name": "開ける"
+        },
+        {
+            "description": "このチェックは検証済みであり、これ以上のアクション アイテムは関連付けられていません",
+            "name": "達成"
+        },
+        {
+            "description": "現在のデザインには適用されません",
+            "name": "該当なし"
+        },
+        {
+            "description": "必須ではありません",
+            "name": "必須ではありません"
+        }
+    ],
+    "waf": [
+        {
+            "name": "パフォーマンス"
+        },
+        {
+            "name": "安全"
+        },
+        {
+            "name": "パフォーマンス"
+        },
+        {
+            "name": "費用"
+        },
+        {
+            "name": "確実"
+        },
+        {
+            "name": "オペレーションズ"
+        },
+        {
+            "name": "オペレーションズ"
+        },
+        {
+            "name": "確実"
+        },
+        {
+            "name": "安全"
+        },
+        {
+            "name": "費用"
+        }
+    ],
+    "yesno": [
+        {
+            "name": "はい"
+        },
+        {
+            "name": "いいえ"
+        }
+    ]
+}
